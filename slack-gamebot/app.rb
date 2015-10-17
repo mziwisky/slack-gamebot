@@ -5,7 +5,7 @@ module SlackGamebot
     def initialize
       SlackGamebot.configure do |config|
         config.secret = ENV['GAMEBOT_SECRET'] || warn("Missing ENV['GAMEBOT_SECRET'].")
-        config.disable_gifs = [1,'true'].include? ENV['DISABLE_GIFS']
+        config.disable_gifs = [1,'true'].include? ENV['GAMEBOT_DISABLE_GIFS']
       end
       super
     end
