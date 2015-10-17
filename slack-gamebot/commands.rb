@@ -1,4 +1,3 @@
-require 'slack-gamebot/commands/base'
 require 'slack-gamebot/commands/accept'
 require 'slack-gamebot/commands/cancel'
 require 'slack-gamebot/commands/challenge'

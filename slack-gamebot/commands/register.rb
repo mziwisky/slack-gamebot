@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Register < SlackGamebot::Commands::Base
+    class Register < SlackRubyBot::Commands::Base
       def self.call(client, data, _match)
         ts = Time.now.utc
         user = ::User.find_create_or_update_by_slack_id!(client, data.user)

@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Default < SlackGamebot::Commands::Base
+    class Default < SlackRubyBot::Commands::Base
       match(/^(?<bot>\w*)$/)
 
       def self.call(client, data, _match)

@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Reset < SlackGamebot::Commands::Base
+    class Reset < SlackRubyBot::Commands::Base
       def self.call(client, data, match)
         fail ArgumentError, "Missing ENV['GAMEBOT_SECRET']." unless SlackGamebot.config.secret.present?
         arguments = match['expression'].split.reject(&:blank?) if match.names.include?('expression')

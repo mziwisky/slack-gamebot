@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Seasons < SlackGamebot::Commands::Base
+    class Seasons < SlackRubyBot::Commands::Base
       def self.call(client, data, _match)
         current_season = ::Season.new
         if current_season.valid?

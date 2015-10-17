@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Rank < SlackGamebot::Commands::Base
+    class Rank < SlackRubyBot::Commands::Base
       def self.call(client, data, match)
         arguments = match['expression'].split.reject(&:blank?) if match.names.include?('expression')
         users = arguments || []
