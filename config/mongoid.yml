@@ -22,7 +22,7 @@ test:
 production:
   sessions:
     default:
-      database: pongbot_production
+      database: pongbot
       hosts:
         - 127.0.0.1:27017
   options:
