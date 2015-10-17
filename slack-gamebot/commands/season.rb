@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Season < SlackRubyBot::Commands::Base
+    class Season < SlackGamebot::Commands::Base
       def self.call(client, data, _match)
         if ::Season.count > 0 && !::Challenge.current.any?
           send_message_with_gif client, data.channel, 'No matches have been recorded.', 'history'

@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Leaderboard < SlackRubyBot::Commands::Base
+    class Leaderboard < SlackGamebot::Commands::Base
       def self.call(client, data, match)
         max = 3
         arguments = match['expression'].split.reject(&:blank?) if match.names.include?('expression')

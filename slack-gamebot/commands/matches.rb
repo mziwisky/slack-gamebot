@@ -1,6 +1,6 @@
 module SlackGamebot
   module Commands
-    class Matches < SlackRubyBot::Commands::Base
+    class Matches < SlackGamebot::Commands::Base
       def self.call(client, data, match)
         totals = {}
         totals.default = 0
