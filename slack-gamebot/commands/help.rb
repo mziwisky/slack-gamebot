@@ -4,6 +4,7 @@ module SlackGamebot
       def self.call(client, data, _match)
         commands = (SlackGamebot::Commands.constants - [:Default]).map(&:downcase).sort
         message = <<-HELP_MSG
+(version #{SlackGamebot::VERSION})
 I understand these commands:
 ```#{commands.join("\n")}```
 See https://github.com/dblock/slack-gamebot for details.
