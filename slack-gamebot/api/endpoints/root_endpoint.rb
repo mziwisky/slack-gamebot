@@ -2,6 +2,7 @@ module Api
   module Endpoints
     class RootEndpoint < Grape::API
       format :json
+      prefix :api
       formatter :json, Grape::Formatter::Roar
       get do
         present self, with: Api::Presenters::RootPresenter

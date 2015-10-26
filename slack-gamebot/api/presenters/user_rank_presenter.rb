@@ -4,6 +4,7 @@ module Api
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include Grape::Roar::Representer
+      include Api::Helpers::UrlHelpers
 
       property :id, type: String, desc: 'UserRank ID.'
       property :user_name, type: String, desc: 'UserRank name.'
@@ -14,7 +15,7 @@ module Api
 
       link :user do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/users/#{user_id}"
+        "#{root_url(request)}/users/#{user_id}"
       end
     end
   end

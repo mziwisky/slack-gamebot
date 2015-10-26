@@ -4,6 +4,7 @@ module Api
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include Grape::Roar::Representer
+      include Api::Helpers::UrlHelpers
 
       link :self do |opts|
         "#{base_url(opts)}/"
@@ -54,7 +55,7 @@ module Api
 
       def base_url(opts)
         request = Grape::Request.new(opts[:env])
-        request.base_url
+        root_url(request)
       end
 
       PAGINATION_PARAMS = "{?#{Api::Helpers::PaginationParameters::ALL.join(',')}}"

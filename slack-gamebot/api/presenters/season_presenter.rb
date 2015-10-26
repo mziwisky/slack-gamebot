@@ -4,6 +4,7 @@ module Api
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include Grape::Roar::Representer
+      include Api::Helpers::UrlHelpers
 
       property :current_id, as: :id, type: String, desc: 'Season ID.'
       property :created_at, type: DateTime, desc: 'Date/time when the season was created.'
@@ -12,12 +13,12 @@ module Api
 
       link :created_by do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/users/#{represented.created_by.id}" if represented.created_by
+        "#{root_url(request)}/users/#{represented.created_by.id}" if represented.created_by
       end
 
       link :self do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/seasons/#{current_id}"
+        "#{root_url(request)}/seasons/#{current_id}"
       end
 
       def current_id

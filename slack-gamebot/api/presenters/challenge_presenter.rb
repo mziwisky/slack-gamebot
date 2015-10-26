@@ -4,6 +4,7 @@ module Api
       include Roar::JSON::HAL
       include Roar::Hypermedia
       include Grape::Roar::Representer
+      include Api::Helpers::UrlHelpers
 
       property :id, type: String, desc: 'Challenge ID.'
       property :state, type: String, desc: 'Current state of the challenge.'
@@ -13,36 +14,36 @@ module Api
 
       link :created_by do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/users/#{represented.created_by.id}" if represented.created_by
+        "#{root_url(request)}/users/#{represented.created_by.id}" if represented.created_by
       end
 
       link :updated_by do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/users/#{represented.updated_by.id}" if represented.updated_by
+        "#{root_url(request)}/users/#{represented.updated_by.id}" if represented.updated_by
       end
 
       link :challengers do |opts|
         request = Grape::Request.new(opts[:env])
         represented.challengers.map do |challenger|
-          "#{request.base_url}/users/#{challenger.id}"
+          "#{root_url(request)}/users/#{challenger.id}"
         end
       end
 
       link :challenged do |opts|
         request = Grape::Request.new(opts[:env])
         represented.challenged.map do |challenged|
-          "#{request.base_url}/users/#{challenged.id}"
+          "#{root_url(request)}/users/#{challenged.id}"
         end
       end
 
       link :match do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/matches/#{represented.match.id}" if represented.match
+        "#{root_url(request)}/matches/#{represented.match.id}" if represented.match
       end
 
       link :self do |opts|
         request = Grape::Request.new(opts[:env])
-        "#{request.base_url}/challenges/#{id}"
+        "#{root_url(request)}/challenges/#{id}"
       end
     end
   end
