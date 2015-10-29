@@ -99,6 +99,27 @@ class Challenge
     update_attributes!(state: ChallengeState::PLAYED)
   end
 
+  def win!(winner, scores = nil)
+    fail 'Challenge must first be accepted.' if state == ChallengeState::PROPOSED
+    fail "Challenge has already been #{state}." unless state == ChallengeState::ACCEPTED
+    winners = nil
+    losers = nil
+    if challenged.include?(winner)
+      winners = challenged
+      losers = challengers
+    elsif
+      winners = challengers
+      losers = challenged
+    else
+      fail "Only #{(challenged + challengers).map(&:user_name).join(' or ')} can win this challenge."
+    end
+    Match.create!(challenge: self, winners: winners, losers: losers, scores: scores)
+    winners.inc(wins: 1)
+    losers.inc(losses: 1)
+    User.rank!
+    update_attributes!(state: ChallengeState::PLAYED)
+  end
+
   def to_s
     "a challenge between #{challengers.map(&:user_name).join(' and ')} and #{challenged.map(&:user_name).join(' and ')}"
   end
