@@ -12,4 +12,6 @@ Thread.new do
   end
 end
 
-run Api::Middleware.instance
+require 'slack-gamebot/web/web'
+
+run Rack::Cascade.new [Api::Middleware.instance, Web]

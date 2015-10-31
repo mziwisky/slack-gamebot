@@ -14,6 +14,9 @@ gem 'grape-swagger'
 gem 'mongoid-scroll'
 gem 'time_ago_in_words'
 
+gem 'sinatra'
+gem 'chartkick'
+
 group :development, :test do
   gem 'rake', '~> 10.4'
   gem 'rubocop', '0.34.2'

@@ -26,6 +26,33 @@ class Season
     ].join(', ')
   end
 
+  def to_chart
+    # go thru all matches chronologically. calculate elo at each step. chart it.
+    # format: [
+    #           {name: 'z', data: {'datestring1' => 1, 'datestring2' => 2} },
+    #           {name: 'nomitch', data: {'datestring1' => 2, 'datestring2' => 1} }
+    #         ]
+    user_histories = players.reduce({}) do |hash, player|
+      surrogate = UserRank.from_user(player.user).tap {|p| p.elo = p.tau = 0}
+      hash[player.user.user_id] = {player: surrogate, data: {player.user.created_at.to_s => 0}}
+      hash
+    end
+
+    played_challenges.asc(:updated_at).map(&:match).each do |match|
+      winners = match.winners.map { |user| user_histories[user.user_id][:player] }
+      losers = match.losers.map { |user| user_histories[user.user_id][:player] }
+
+      deltas = Elo.calculate_change(winners: winners, losers: losers)
+      deltas.each do |player, delta|
+        player.elo += delta[:elo]
+        player.tau += delta[:tau]
+        user_histories[player.user.user_id][:data][match.created_at.to_s] = player.elo
+      end
+    end
+
+    user_histories.map { |user_id, hash| {name: hash[:player].user_name, data: hash[:data]} }
+  end
+
   private
 
   def winner

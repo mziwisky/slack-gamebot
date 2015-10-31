@@ -38,21 +38,11 @@ class Match
   end
 
   def calculate_elo!
-    winners_elo = Elo.team_elo(winners)
-    losers_elo = Elo.team_elo(losers)
-
-    winners.each do |winner|
-      e = 100 - 1.0 / (1.0 + (10.0**((losers_elo - winner.elo) / 400.0))) * 100
-      winner.tau += 0.5
-      winner.elo += e * (Elo::DELTA_TAU**winner.tau)
-      winner.save!
-    end
-
-    losers.each do |loser|
-      e = 100 - 1.0 / (1.0 + (10.0**((loser.elo - winners_elo) / 400.0))) * 100
-      loser.tau += 0.5
-      loser.elo -= e * (Elo::DELTA_TAU**loser.tau)
-      loser.save!
+    deltas = Elo.calculate_change(winners: winners, losers: losers)
+    deltas.each do |player, delta|
+      player.elo += delta[:elo]
+      player.tau += delta[:tau]
+      player.save!
     end
   end
 end
